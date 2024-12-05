@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ForumMinute</title>
+  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.66.2/lib/index.iife.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    header {
+      background-color: #2c3e50;
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    nav a, .wallet-btn {
+      color: #fff;
+      margin: 0 10px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    nav a:hover, .wallet-btn:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .wallet-btn {
+      background-color: #3498db;
+      padding: 8px 12px;
+      border-radius: 5px;
+      border: none;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 10px;
+      background: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ForumMinute</h1>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Categorias</a>
+      <a href="#">Perfil</a>
+      <button class="wallet-btn" id="connectWallet">Conectar Carteira</button>
+    </nav>
+  </header>
+  
+  <div class="container">
+    <p id="walletAddress">Carteira não conectada.</p>
+  </div>
+  
+  <footer>
+    &copy; 2024 ForumMinute - Todos os direitos reservados.
+  </footer>
+
+<script>
+  const connectWalletBtn = document.getElementById('connectWallet');
+  const walletAddressDisplay = document.getElementById('walletAddress');
+
+  // Verifica se Phantom Wallet está disponível
+  const checkPhantomAvailability = () => {
+    if (window.solana && window.solana.isPhantom) {
+      console.log("Phantom Wallet detectada.");
+      return true;
+    }
+    console.log("Phantom Wallet não detectada.");
+    return false;
+  };
+
+  // Conecta à Phantom Wallet
+  const connectWallet = async () => {
+    if (!checkPhantomAvailability()) {
+      alert("Phantom Wallet não está instalada. Por favor, instale-a.");
+      return;
+    }
+    try {
+      // Solicitar conexão
+      const response = await window.solana.connect({ onlyIfTrusted: false });
+      const publicKey = response.publicKey.toString();
+      walletAddressDisplay.textContent = `Carteira conectada: ${publicKey}`;
+      connectWalletBtn.textContent = "Conectado";
+      connectWalletBtn.disabled = true;
+      console.log(`Carteira conectada: ${publicKey}`);
+    } catch (err) {
+      console.error("Erro ao conectar:", err);
+      alert("Erro ao conectar à carteira.");
+    }
+  };
+
+  // Inicializar detecção ao carregar a página
+  document.addEventListener('DOMContentLoaded', () => {
+    if (checkPhantomAvailability()) {
+      console.log("Pronto para conectar.");
+    } else {
+      alert("Phantom Wallet não detectada. Verifique se está instalada e ativada.");
+    }
+  });
+
+  // Evento do botão
+  connectWalletBtn.addEventListener('click', connectWallet);
+</script>
+
+</body>
+</html>
