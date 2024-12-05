@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comprar Minutos de Participação</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      padding: 20px;
+    }
+    .button {
+      background-color: #28A745;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+      font-size: 1em;
+    }
+    .button:hover {
+      background-color: #218838;
+    }
+    .info {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Comprar Minutos de Participação</h1>
+    <p>Conecte sua carteira para comprar minutos de participação no forum.</p>
+
+    <div class="info">
+      <p>Cada token $FRM representa 1 minuto de acesso. Para 1 hora, você precisa de 60 tokens.</p>
+    </div>
+
+    <button class="button" onclick="comprarMinutos()">Comprar Minutos</button>
+  </div>
+
+  <script>
+    async function comprarMinutos() {
+      if (window.solana && window.solana.isPhantom) {
+        try {
+          const conexao = await window.solana.connect();
+          // Lógica para realizar a compra de minutos usando a carteira (simulada por agora)
+          alert('Compra realizada com sucesso! Você agora tem minutos para participar do fórum.');
+        } catch (erro) {
+          console.error("Erro ao tentar comprar minutos:", erro);
+          alert("Erro ao tentar comprar minutos. Tente novamente.");
+        }
+      } else {
+        alert("Por favor, conecte sua carteira Phantom para continuar.");
+      }
+    }
+  </script>
+</body>
+</html>
