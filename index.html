@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ForumMinute - Landing Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      padding: 20px;
+    }
+    .button {
+      background-color: #007BFF;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+      font-size: 1em;
+    }
+    .button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Bem-vindo ao ForumMinute!</h1>
+    <p>Conecte sua carteira para explorar o fórum exclusivo!</p>
+    <button class="button" id="connect-wallet">Conectar Carteira</button>
+  </div>
+
+  <script>
+    // Função principal para conectar a carteira Phantom
+    async function conectarCarteira() {
+      const connectButton = document.getElementById("connect-wallet");
+
+      // Verificar se a carteira Phantom está instalada
+      if (window.solana && window.solana.isPhantom) {
+        console.log("Carteira Phantom detectada.");
+        try {
+          // Tentar conectar à carteira
+          const conexao = await window.solana.connect({ onlyIfTrusted: false });
+          console.log("Carteira conectada com sucesso:", conexao.publicKey.toString());
+          alert(`Carteira conectada! Endereço: ${conexao.publicKey.toString()}`);
+          window.location.href = "pagina_de_compra.html"; // Redireciona para a página de compra
+        } catch (erro) {
+          console.error("Erro ao conectar à carteira:", erro);
+          alert("Erro ao conectar à carteira. Verifique as permissões e tente novamente.");
+        }
+      } else {
+        console.error("Phantom Wallet não detectada.");
+        alert("Phantom Wallet não detectada. Instale a extensão e recarregue a página.");
+        connectButton.disabled = true; // Desativa o botão se a carteira não for detectada
+      }
+    }
+
+    // Associar o evento ao botão
+    document.getElementById("connect-wallet").addEventListener("click", conectarCarteira);
+  </script>
+</body>
+</html>
